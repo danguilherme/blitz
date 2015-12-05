@@ -1,0 +1,19 @@
+{
+  "globals": {
+    "kony": false,
+    "blitz": false
+  },
+  "ecmaFeatures": {
+    "blockBindings": true,
+    "arrowFunctions": true
+  },
+  "rules": {
+    "semi": 2,
+    "quotes": 0,
+    "no-use-before-define": [2, "nofunc"],
+    "camelcase": 0,
+    "curly": [2, "multi-or-nest"],
+    "no-inner-declarations": [2, "functions"],
+    "wrap-iife": [2, "outside"]
+  }
+}
