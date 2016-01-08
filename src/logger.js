@@ -12,7 +12,7 @@
     }
   }
 
-  blitz.log = {
+  blitz.logger = {
     logLevels: logLevels,
     error: function(tag, error) {
       if (error instanceof Error)

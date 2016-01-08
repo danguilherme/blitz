@@ -3,6 +3,7 @@ const concat = require("gulp-concat");
 const watch = require('gulp-watch');
 const uglify = require("gulp-uglify");
 const babel = require('gulp-babel');
+const plumber = require('gulp-plumber');
 
 const paths = {
   dist: 'dist/'
@@ -13,9 +14,13 @@ function getProjectFiles() {
     "src/polyfills.js",
     "src/core.js",
     "src/utils.js",
-    "src/log.js",
+    "src/logger.js",
     "src/events.js",
+
+    "src/animation.js",
+    "src/mvc.js",
     "src/application.js",
+
     "src/**/*.js"
   ];
 }
@@ -30,6 +35,7 @@ gulp.task('watch', () => {
 gulp.task('build', () => {
   return gulp
     .src(getProjectFiles())
+    .pipe(plumber())
     .pipe(concat("blitz.js"))
     .pipe(babel({
       // presets: ['es2015'],
@@ -41,7 +47,8 @@ gulp.task('build', () => {
         [require("babel-plugin-transform-es2015-arrow-functions")],
         [require("babel-plugin-transform-es2015-block-scoped-functions")],
         [require("babel-plugin-transform-es2015-block-scoping")],
-        [require("babel-plugin-transform-es2015-spread")]
+        [require("babel-plugin-transform-es2015-spread")],
+        [require("babel-plugin-transform-es2015-template-literals")]
       ]
     }))
     .pipe(uglify())
