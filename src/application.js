@@ -3,13 +3,14 @@
  * 	- core
  */
 (function(global) {
+  const TAG = "blitz.application";
   /**
    * @return {Application} a new application instance
    * @module application
    */
   blitz.application = (function() {
     var instance = {};
-    
+
     instance.preInit = function() {
       instance.trigger('preinit');
     };

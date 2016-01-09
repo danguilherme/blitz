@@ -1,7 +1,9 @@
 (function() {
-  var logLevels = new blitz.utils.Enum(["NONE", "ERROR", "INFO", "VERBOSE"], 1);
+  const TAG = "blitz.logger";
 
-  var activeLevel = logLevels.VERBOSE;
+  var logLevels = new blitz.utils.Enum(["NONE", "ERROR", "INFO", "VERBOSE", "DEBUG"], 1);
+
+  var activeLevel = logLevels.INFO;
 
   function log(level, tag, message) {
     if (level <= activeLevel) {
@@ -13,7 +15,7 @@
   }
 
   blitz.logger = {
-    logLevels: logLevels,
+    levels: logLevels,
     error: function(tag, error) {
       if (error instanceof Error)
         log(logLevels.ERROR, tag, error.message + "\n" + error.stack);
@@ -26,9 +28,14 @@
     verbose: function(tag, message) {
       log(logLevels.VERBOSE, tag, message);
     },
+    debug: function(tag, message) {
+      log(logLevels.DEBUG, tag, message);
+    },
     setActiveLevel: function(level) {
-      if (level > 0 && level <= logLevels.length)
+      if (level > 0 && level <= logLevels.length) {
         activeLevel = level;
+        this.info(TAG, `Log level set to ${logLevels[activeLevel]}`);
+      }
     }
   };
 }());

@@ -11,17 +11,20 @@ const paths = {
 
 function getProjectFiles() {
   return [
+    // essential modules
     "src/polyfills.js",
     "src/core.js",
     "src/utils.js",
     "src/logger.js",
     "src/events.js",
-
-    "src/animation.js",
-    "src/mvc.js",
     "src/application.js",
 
-    "src/**/*.js"
+    // optional modules
+    "src/http.js",
+    // "src/animation.js",
+    "src/mvc.js",
+
+    // "src/**/*.js"
   ];
 }
 
@@ -36,7 +39,6 @@ gulp.task('build', () => {
   return gulp
     .src(getProjectFiles())
     .pipe(plumber())
-    .pipe(concat("blitz.js"))
     .pipe(babel({
       // presets: ['es2015'],
       plugins: [
@@ -51,6 +53,7 @@ gulp.task('build', () => {
         [require("babel-plugin-transform-es2015-template-literals")]
       ]
     }))
+    .pipe(concat("blitz.js"))
     .pipe(uglify())
     .pipe(gulp.dest("dist"));
 });

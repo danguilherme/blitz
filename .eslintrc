@@ -4,6 +4,7 @@
     "blitz": false
   },
   "ecmaFeatures": {
+    "templateStrings": true,
     "blockBindings": true,
     "arrowFunctions": true
   },
