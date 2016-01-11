@@ -9,7 +9,7 @@
     if (mvc.modules[moduleName] === undefined) {
       mvc.modules[moduleName] = {};
       mvc.modules[moduleName].model = undefined;
-      mvc.modules[moduleName].views = {};
+      mvc.modules[moduleName].view = undefined;
       mvc.modules[moduleName].controller = undefined;
     }
   }
@@ -67,7 +67,7 @@
     Object.assign(instance, new blitz.EventEmitter());
 
     initModule(moduleName);
-    mvc.modules[moduleName].views[formId] = instance;
+    mvc.modules[moduleName].view = instance;
 
     //////////////////////////////
     // FORM LIFECYCLE CALLBACKS //
@@ -273,6 +273,35 @@
     return instance;
   }
 
+  /* CONTROLLER */
+  mvc.controller = function controller(moduleName, config) {
+    initModule(moduleName);
+
+    var instance = {
+      moduleName: moduleName,
+      view: function view() {
+        return mvc.modules[moduleName].view;
+      },
+      model: function model() {
+        return mvc.modules[moduleName].model;
+      }
+    };
+
+    config = Object.assign({}, {
+      control: {}
+    }, config);
+
+    var view = instance.view();
+    for (var evt in config.control) {
+      if (config.control.hasOwnProperty(evt) &&
+        typeof config.control[evt] == 'function') {
+        view.on(evt, config.control[evt]);
+      }
+    };
+
+    instance.onViewReady.bind(instance);
+  };
+
   /* MODEL */
   mvc.model = function model(moduleName) {
     if (arguments.length === 0)
@@ -296,40 +325,6 @@
 
     return instance;
   };
-
-  /* CONTROLLER */
-  // function Controller(moduleName, config) {
-  //   var me = this;
-  //   var view;
-  //
-  //   extend(this, {
-  //     onViewReady: function() {
-  //       blitz__.logger.verbose(TAG, moduleName + ': View ready.');
-  //     },
-  //     onBeforeViewShow: function() {
-  //       blitz__.logger.verbose(TAG, moduleName + ': Before view show.');
-  //     },
-  //     onViewShow: function() {
-  //       blitz__.logger.verbose(TAG, moduleName + ': View show.');
-  //     },
-  //     onViewLeave: function() {
-  //       blitz__.logger.verbose(TAG, moduleName + ': View left.');
-  //     }
-  //   }, config);
-  //   this.moduleName = moduleName;
-  //   view = this.view();
-  //
-  //   view.addEventListener("ready", me.onViewReady.bind(this));
-  //   view.addEventListener("preShow", me.onBeforeViewShow.bind(this));
-  //   view.addEventListener("show", me.onViewShow.bind(this));
-  //   view.addEventListener("leave", me.onViewLeave.bind(this));
-  // }
-  // Controller.prototype.view = function() {
-  //   return blitz__.View[this.moduleName];
-  // };
-  // Controller.prototype.model = function() {
-  //   return blitz__.Model[this.moduleName];
-  // };
 
   blitz.mvc = mvc;
 }(this));
