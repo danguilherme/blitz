@@ -12,9 +12,26 @@
       mvc.modules[moduleName].view = undefined;
       mvc.modules[moduleName].controller = undefined;
     }
+
+    return mvc.modules[moduleName];
   }
 
-  blitz.logger.verbose(TAG, "[LOADING]");
+  function registerModel(moduleName, modelInstance) {
+    if (modelInstance)
+      initModule(moduleName).model = modelInstance;
+  }
+
+  function registerView(moduleName, viewInstance) {
+    if (viewInstance)
+      initModule(moduleName).view = viewInstance;
+  }
+
+  function registerController(moduleName, controllerInstance) {
+    if (controllerInstance)
+      initModule(moduleName).controller = controllerInstance;
+  }
+
+  blitz.logger.debug(TAG, "[LOADING]");
 
   var formToBeDestroyed = null;
 
@@ -66,8 +83,7 @@
     };
     Object.assign(instance, new blitz.EventEmitter());
 
-    initModule(moduleName);
-    mvc.modules[moduleName].view = instance;
+    registerView(moduleName, instance);
 
     //////////////////////////////
     // FORM LIFECYCLE CALLBACKS //
@@ -275,8 +291,6 @@
 
   /* CONTROLLER */
   mvc.controller = function controller(moduleName, config) {
-    initModule(moduleName);
-
     var instance = {
       moduleName: moduleName,
       view: function view() {
@@ -286,6 +300,8 @@
         return mvc.modules[moduleName].model;
       }
     };
+
+    registerController(moduleName, instance);
 
     config = Object.assign({}, {
       control: {}
@@ -298,8 +314,6 @@
         view.on(evt, config.control[evt]);
       }
     };
-
-    instance.onViewReady.bind(instance);
   };
 
   /* MODEL */
@@ -320,8 +334,7 @@
       }
     };
 
-    initModule(moduleName);
-    mvc.modules[moduleName].model = instance;
+    registerModel(moduleName, instance);
 
     return instance;
   };

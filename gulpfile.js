@@ -12,6 +12,7 @@ const paths = {
 function getProjectFiles() {
   return [
     // essential modules
+    "src/web2kony.js",
     "src/polyfills.js",
     "src/core.js",
     "src/utils.js",

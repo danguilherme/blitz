@@ -3,29 +3,6 @@
  */
 (function() {
   /**
-   * Preparing polyfill cenario
-   */
-  setTimeout = (function() {
-    var id = 0;
-    return function(fn, time) {
-      var timerId = "blitz.timeout." + (++id);
-      kony.timer.schedule(timerId, fn, time, false);
-      return timerId;
-    };
-  }());
-
-  clearTimeout = function(timeoutId) {
-    try {
-      kony.timer.cancel(trmb.Constants.timer.KEEP_ALIVE);
-    } catch (e) {
-      // iphone throws an error if timer does not exist.
-      // we just ignore it
-    }
-  };
-
-  // ************************************* //
-
-  /**
    * Object.assign polyfill
    * @source
    * 	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
