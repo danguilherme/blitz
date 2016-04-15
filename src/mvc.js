@@ -65,7 +65,7 @@
         var form = global[instance.formId];
         if (!form)
           throw new Error(`Form "${instance.formId}" does not exist or is not loaded.`)
-        return ;
+        return form;
       },
       // navigateBack: function() {
       // var mForm;
