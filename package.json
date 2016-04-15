@@ -28,6 +28,7 @@
   "homepage": "https://github.com/danguilherme/blitz#readme",
   "dependencies": {
     "chalk": "^1.1.1",
+    "gulp": "^3.9.1",
     "npm": "3.5.0"
   },
   "devDependencies": {
