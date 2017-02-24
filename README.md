@@ -1,4 +1,5 @@
 # blitz
+> Kinda like a *jQuery* for Kony
 
 **(in development)**
 

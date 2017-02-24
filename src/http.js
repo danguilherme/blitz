@@ -59,11 +59,11 @@
 
       if (readyState === constants.HTTP_READY_STATE_DONE) {
         if (status >= 200 && status <= 299) {
-          blitz.logger.verbose(TAG, `Request successfully performed.`);
+          blitz.logger.debug(TAG, `Request successfully performed.`);
           blitz.logger.info(TAG, `HTTP ${status}`);
           resolve(request.response);
         } else {
-          blitz.logger.verbose(TAG, `Request failed.`);
+          blitz.logger.debug(TAG, `Request failed.`);
           blitz.logger.info(TAG, `HTTP ${status}`);
           reject(request);
         }

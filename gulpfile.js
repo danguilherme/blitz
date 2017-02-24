@@ -25,7 +25,7 @@ function getProjectFiles() {
     // "src/animation.js",
     "src/mvc.js",
 
-    // "src/**/*.js"
+    "src/**/*.js"
   ];
 }
 

@@ -11,6 +11,9 @@
   blitz.application = (function() {
     var instance = {};
 
+    Object.assign(instance, new blitz.EventEmitter());
+    instance.broadcast = instance.trigger;
+
     instance.preInit = function() {
       instance.trigger('preinit');
     };
@@ -25,15 +28,15 @@
     // http://docs.kony.com/konylibrary/studio/kony_studio_api_reference_guide/Default.htm#application_events.htm#setappli%3FTocPath%3DApplication%2520APIs%7C_____4
     kony.application.setApplicationCallbacks({
       onbackground: function() {
-        blitz.logger.verbose(TAG, "onbackground");
+        blitz.logger.debug(TAG, "onbackground");
         instance.broadcast("background");
       },
       onforeground: function() {
-        blitz.logger.verbose(TAG, "onforeground");
+        blitz.logger.debug(TAG, "onforeground");
         instance.broadcast("foreground");
       },
       onlowmemory: function() {
-        blitz.logger.verbose(TAG, "onlowmemory");
+        blitz.logger.debug(TAG, "onlowmemory");
         instance.broadcast("lowmemory");
       }
     });
@@ -45,9 +48,6 @@
         currentForm = global[currentForm];
       return currentForm;
     };
-
-    Object.assign(instance, new blitz.EventEmitter());
-    instance.broadcast = instance.trigger;
 
     return instance;
   }());
