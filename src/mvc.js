@@ -62,7 +62,10 @@
       moduleName: moduleName,
       formId: formId,
       form: function form() {
-        return global[instance.formId];
+        var form = global[instance.formId];
+        if (!form)
+          throw new Error(`Form "${instance.formId}" does not exist or is not loaded.`)
+        return form;
       },
       // navigateBack: function() {
       // var mForm;
@@ -287,6 +290,19 @@
     };
 
     return instance;
+  }
+
+  /**
+   * Called to initiate a view.
+   * To be called when the form is initiated.
+   */
+  mvc.init = function initView(moduleName) {
+    blitz.logger.debug(TAG, `mvc.init: ${moduleName}`);
+    var view = mvc.modules[moduleName].view;
+    if (!view)
+      throw new Error(`There is no view registered for module "${moduleName}"`);
+    else
+      view.init();
   }
 
   /* CONTROLLER */
